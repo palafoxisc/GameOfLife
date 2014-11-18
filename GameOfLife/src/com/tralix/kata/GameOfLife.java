@@ -5,14 +5,23 @@ public class GameOfLife {
     private boolean[][] matrix;
 
     public boolean[][] start(final boolean[][] matrixInicial) {
-        matrix = matrixInicial.clone();
-
+        matrix = new boolean[matrixInicial.length][matrixInicial[0].length];
         for (int i = 0; i < matrixInicial.length; i++) {
             for (int j = 0; j < matrixInicial[i].length; j++) {
-                matrix[i][j] = countSurroundingLivingNeighbors(i, j, matrixInicial) >= 2 ? true : false;
+                matrix[i][j] = getNewStatus(matrixInicial[i][j], countSurroundingLivingNeighbors(i, j, matrixInicial));
             }
         }
-        return matrixInicial;
+        return matrix;
+    }
+
+    private boolean getNewStatus(final boolean cel, final int aliveCells) {
+        if (aliveCells == 3)
+            return true;
+        if (aliveCells > 3)
+            return false;
+        if (aliveCells >= 2)
+            return cel;
+        return false;
     }
 
     public int countSurroundingLivingNeighbors(final int i, final int j, final boolean[][] matrix) {
@@ -21,18 +30,12 @@ public class GameOfLife {
         final int iSup = getSupRow(i, matrix.length);
         final int jSup = getSupRow(j, matrix[0].length);
         int count = 0;
-        System.out.println("evaluate i = " + i + ", j = " + j);
-        System.out.println(i + " " + j + " " + iInf + " " + iSup + " " + jInf + " " + jSup);
         for (int ii = iInf; ii <= iSup; ii++) {
             for (int jj = jInf; jj <= jSup; jj++) {
-                System.out.print(matrix[ii][jj]);
-                System.out.print(" " + i + " " + j + " " + ii + " " + jj + " " + !((ii == i) && (jj == j)));
                 if (matrix[ii][jj] == true && !((ii == i) && (jj == j)))
                     count++;
             }
-            System.out.println();
         }
-        System.out.println("count = " + count);
         return count;
     }
 
@@ -41,7 +44,6 @@ public class GameOfLife {
     }
 
     private int getSupRow(int i, int length) {
-        System.out.println(i + " " + length);
         return (i + 1 >= length) ? length - 1 : i + 1;
     }
 
