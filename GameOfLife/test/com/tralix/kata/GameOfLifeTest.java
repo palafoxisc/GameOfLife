@@ -4,8 +4,12 @@ import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -163,38 +167,45 @@ public class GameOfLifeTest {
         assertArrayEquals(matrixEsperada, matrixFinal);
     }
     
-//    @Test
-//    public void readInputFromFile() throws Exception {
-//        File input = new File("test/input");
-//        Scanner scanner = new Scanner(input);
-//        
-//        String alive = scanner.next();
-//        String dead = scanner.next();
-//        Integer rows = scanner.nextInt();
-//        Integer cols = scanner.nextInt();
-//        
-//        boolean[][] matrix = new boolean[rows][cols]; 
-//        int i = 0;
-//        while (scanner.hasNext()) {
-//            String nextLine = scanner.nextLine();
-//            matrix[i] = asBooleanArray(nextLine);
-//        }
-//        
-//        scanner.nextLine();
-//        System.out.println(alive);
-//        System.out.println(dead);
-//        System.out.println(rows);
-//        System.out.println(cols);
-//        System.out.println(scanner.nextLine());
-//        System.out.println(scanner.nextLine());
-//    }
-//
-//    private boolean[] asBooleanArray(String alive, String dead, String nextLine) {
-//        
-//        return null;
-//    }
+    @Test
+    public void readInputFromFile() throws Exception {
+        boolean[][] matrix = loadFromFile("test/input");
+        printMatrix(matrix);
+    }
+
+    private boolean[][] loadFromFile(final String file) throws Exception{
+        Scanner scanner = new Scanner(new File(file));
+        String alive = scanner.next();
+        Integer rows = scanner.nextInt();
+        Integer cols = scanner.nextInt();
+        scanner.nextLine();
+        boolean[][] matrix = new boolean[rows][cols]; 
+        int i = 0;
+        while (scanner.hasNext()) {
+            String nextLine = scanner.nextLine();
+            matrix[i++] = asBooleanArray(alive, nextLine);
+        }
+        return matrix;
+    }
+
+    private boolean[] asBooleanArray(String alive, String nextLine) {
+        String[] split = nextLine.trim().split(" ");
+        boolean[] ret = new boolean[split.length];
+        int i = 0;
+        for (String str : split) {
+            ret[i++] = str.equals(alive);
+        }
+        return ret;
+    }
     
-    //private boolean[] asArray()
+    private void printMatrix(boolean[][] matrix) {
+        for (int j = 0; j < matrix.length; j++) {
+            for (int j2 = 0; j2 < matrix[j].length; j2++) {
+                System.out.print(matrix[j][j2] + " ");
+            }
+            System.out.println();
+        }
+    }
     
     
 }
