@@ -1,15 +1,9 @@
 package com.tralix.kata;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Arrays;
 import java.util.Scanner;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,157 +22,135 @@ public class GameOfLifeTest {
 	}
 
 	@Test
-	public void tableroDe2x2_todasLasCelulasMuertas_todasSiguenMuertas()
-			throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { F, F }, { F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F }, { F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+	public void tableroDe2x2_todasLasCelulasMuertas_todasSiguenMuertas() throws Exception {
+		Boolean[][] matrixInicial = new Boolean[][] { { F, F }, { F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F }, { F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
 	public void tableroDe2x2_unaCelulaViva_todasEstanMuertas() throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { T, F }, { F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F }, { F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixInicial = new Boolean[][] { { T, F }, { F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F }, { F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
-	public void tableroDe2x2_dosCelulasVivas_todasEstanMuertas()
-			throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { T, T }, { F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F }, { F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+	public void tableroDe2x2_dosCelulasVivas_todasEstanMuertas() throws Exception {
+		Boolean[][] matrixInicial = new Boolean[][] { { T, T }, { F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F }, { F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
-	public void tableroDe2x2_tresCelulasVivas_todasEstanVivas()
-			throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { T, T }, { T, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { T, T }, { T, T } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+	public void tableroDe2x2_tresCelulasVivas_todasEstanVivas() throws Exception {
+		Boolean[][] matrixInicial = new Boolean[][] { { T, T }, { T, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { T, T }, { T, T } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
-	public void tableroDe2x2_todasLasCelulasVivas_todasSiguenVivas()
-			throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { T, T }, { T, T } };
-		boolean[][] matrixEsperada = new boolean[][] { { T, T }, { T, T } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+	public void tableroDe2x2_todasLasCelulasVivas_todasSiguenVivas() throws Exception {
+		Boolean[][] matrixInicial = new Boolean[][] { { T, T }, { T, T } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { T, T }, { T, T } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
-	public void tableroDe3x2_LasCelulasDeLaPrimerFilaVivas_dosQuedanVivas()
-			throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { T, T, T }, { F, F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, T, F }, { F, T, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+	public void tableroDe3x2_LasCelulasDeLaPrimerFilaVivas_dosQuedanVivas() throws Exception {
+		Boolean[][] matrixInicial = new Boolean[][] { { T, T, T }, { F, F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, T, F }, { F, T, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
-	public void tableroDe3x3_LasCelulasDeLaPrimerFilaVivas_dosQuedanVivas()
-			throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { T, T, T }, { F, F, F },
-				{ F, F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, T, F },
-				{ F, T, F }, { F, F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+	public void tableroDe3x3_LasCelulasDeLaPrimerFilaVivas_dosQuedanVivas() throws Exception {
+		Boolean[][] matrixInicial = new Boolean[][] { { T, T, T }, { F, F, F }, { F, F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, T, F }, { F, T, F }, { F, F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
 	public void tableroDe4x4_stillLifes_block() throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { F, F, F, F },
-				{ F, T, T, F }, { F, T, T, F }, { F, F, F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F, F, F },
-				{ F, T, T, F }, { F, T, T, F }, { F, F, F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixInicial = new Boolean[][] { { F, F, F, F }, { F, T, T, F }, { F, T, T, F }, { F, F, F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F }, { F, T, T, F }, { F, T, T, F }, { F, F, F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
 	public void tableroDe5x5_oscillators_blinker() throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { F, F, F, F, F },
-				{ F, F, F, F, F }, { F, T, T, T, F }, { F, F, F, F, F },
-				{ F, F, F, F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F, F, F, F },
-				{ F, F, T, F, F }, { F, F, T, F, F }, { F, F, T, F, F },
-				{ F, F, F, F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixInicial = new Boolean[][] { { F, F, F, F, F }, { F, F, F, F, F }, { F, T, T, T, F },
+				{ F, F, F, F, F }, { F, F, F, F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F }, { F, F, T, F, F }, { F, F, T, F, F },
+				{ F, F, T, F, F }, { F, F, F, F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
 	public void tableroDe5x5_oscillators_blinker2() throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { F, F, F, F, F },
-				{ F, F, T, F, F }, { F, F, T, F, F }, { F, F, T, F, F },
-				{ F, F, F, F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F, F, F, F },
-				{ F, F, F, F, F }, { F, T, T, T, F }, { F, F, F, F, F },
-				{ F, F, F, F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixInicial = new Boolean[][] { { F, F, F, F, F }, { F, F, T, F, F }, { F, F, T, F, F },
+				{ F, F, T, F, F }, { F, F, F, F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F }, { F, F, F, F, F }, { F, T, T, T, F },
+				{ F, F, F, F, F }, { F, F, F, F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
 	public void tableroDe6x6_oscillators_beacon() throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { F, F, F, F, F, F },
-				{ F, T, T, F, F, F }, { F, T, F, F, F, F },
-				{ F, F, F, F, T, F }, { F, F, F, T, T, F },
-				{ F, F, F, F, F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F, F, F, F, F },
-				{ F, T, T, F, F, F }, { F, T, T, F, F, F },
-				{ F, F, F, T, T, F }, { F, F, F, T, T, F },
-				{ F, F, F, F, F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixInicial = new Boolean[][] { { F, F, F, F, F, F }, { F, T, T, F, F, F }, { F, T, F, F, F, F },
+				{ F, F, F, F, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F, F }, { F, T, T, F, F, F },
+				{ F, T, T, F, F, F }, { F, F, F, T, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
 	public void tableroDe6x6_oscillators_beacon2() throws Exception {
-		boolean[][] matrixInicial = new boolean[][] { { F, F, F, F, F, F },
-				{ F, T, T, F, F, F }, { F, T, T, F, F, F },
-				{ F, F, F, T, T, F }, { F, F, F, T, T, F },
-				{ F, F, F, F, F, F } };
-		boolean[][] matrixEsperada = new boolean[][] { { F, F, F, F, F, F },
-				{ F, T, T, F, F, F }, { F, T, F, F, F, F },
-				{ F, F, F, F, T, F }, { F, F, F, T, T, F },
-				{ F, F, F, F, F, F } };
-		boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixInicial = new Boolean[][] { { F, F, F, F, F, F }, { F, T, T, F, F, F }, { F, T, T, F, F, F },
+				{ F, F, F, T, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
+		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F, F }, { F, T, T, F, F, F },
+				{ F, T, F, F, F, F }, { F, F, F, F, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
+		Boolean[][] matrixFinal = game.start(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
 	@Test
 	public void tableroDe6x6_oscillators_beacon_loadFromFile() throws Exception {
-		boolean[][] matrix = loadFromFile("test/input");
-		boolean[][] expected = loadFromFile("test/expected");
-		boolean[][] matrixFinal = game.start(matrix);
+		Boolean[][] matrix = loadFromFile("test/input");
+		Boolean[][] expected = loadFromFile("test/expected");
+		Boolean[][] matrixFinal = game.start(matrix);
 		assertArrayEquals(expected, matrixFinal);
 	}
 
-	private boolean[][] loadFromFile(final String file) throws Exception {
+	private Boolean[][] loadFromFile(final String file) throws Exception {
 		Scanner scanner = new Scanner(new File(file));
-		String alive = scanner.next();
+		String charForLivingCell = scanner.next();
 		Integer rows = scanner.nextInt();
 		Integer cols = scanner.nextInt();
 		scanner.nextLine();
-		boolean[][] matrix = new boolean[rows][cols];
+		Boolean[][] matrix = new Boolean[rows][cols];
 		int i = 0;
 		while (scanner.hasNext()) {
-			matrix[i++] = asBooleanArray(alive, scanner.nextLine());
+			matrix[i++] = asBooleanArray(charForLivingCell, scanner.nextLine());
 		}
 		scanner.close();
 		return matrix;
 	}
 
-	private boolean[] asBooleanArray(String alive, String nextLine) {
+	private Boolean[] asBooleanArray(String alive, String nextLine) {
 		String[] split = nextLine.trim().split("\\s+");
-		boolean[] ret = new boolean[split.length];
+		Boolean[] ret = new Boolean[split.length];
 		int i = 0;
 		for (String str : split) {
 			ret[i++] = str.equals(alive);
@@ -186,11 +158,10 @@ public class GameOfLifeTest {
 		return ret;
 	}
 
-	private void printMatrix(boolean[][] matrix) {
-		for (int j = 0; j < matrix.length; j++) {
-			for (int j2 = 0; j2 < matrix[j].length; j2++) {
-				System.out.print(matrix[j][j2] + " ");
-			}
+	private void printMatrix(Boolean[][] matrix) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++)
+				System.out.print(matrix[i][j] + " ");
 			System.out.println();
 		}
 	}
