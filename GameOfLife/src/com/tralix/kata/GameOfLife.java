@@ -5,21 +5,20 @@ import java.util.stream.IntStream;
 
 public class GameOfLife {
 
-	private Boolean[][] matrix;
-
 	public Boolean[][] start(final Boolean[][] matrixInicial) {
-		matrix = clone(matrixInicial);
-		IntStream.range(0, matrix.length).forEach(
-				x -> Arrays.setAll(matrix[x],
-						y -> getNewStatus(matrixInicial[x][y], countSurroundingLivingNeighbors(x, y, matrixInicial))));
-		return matrix;
+		return IntStream
+				.range(0, matrixInicial.length)
+				.mapToObj(
+						x -> IntStream
+								.range(0, matrixInicial[x].length)
+								.mapToObj(
+										y -> getNewStatus(matrixInicial[x][y],
+												countSurroundingLivingNeighbors(x, y, matrixInicial)))
+								.toArray(Boolean[]::new)).toArray(Boolean[][]::new);
 	}
 
-	public Boolean[][] clone(final Boolean[][] input) {
-		// final Boolean[][] output = new Boolean[input.length][];
-		// IntStream.range(0, input.length).forEach(x -> output[x] =
-		// input[x].clone());
-		return IntStream.range(0, input.length).mapToObj(x -> input[x].clone()).toArray(Boolean[][]::new);
+	public Boolean[][] sameSizeArray(final Boolean[][] input) {
+		return new Boolean[input.length][input[0].length];
 	}
 
 	private Boolean getNewStatus(final Boolean cel, final int aliveCells) {
