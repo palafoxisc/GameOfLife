@@ -18,10 +18,10 @@ public class GameOfLife {
 				.toArray(Boolean[]::new);
 	}
 	
-	public int livingNeighbors(final int i, final int j, final Boolean[][] matrix) {
+	private int livingNeighbors(final int i, final int j, final Boolean[][] matrix) {
 		return (int) Arrays.stream(subMatrix(i, j, matrix))
 				.flatMap(x -> Arrays.stream(x))
-				.filter(x -> x.booleanValue())
+				.filter(x -> x)
 				.count();
 	}
 
