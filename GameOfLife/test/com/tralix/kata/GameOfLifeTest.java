@@ -2,10 +2,21 @@ package com.tralix.kata;
 
 import static org.junit.Assert.assertArrayEquals;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.LayoutManager;
 import java.io.File;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class GameOfLifeTest {
@@ -25,7 +36,7 @@ public class GameOfLifeTest {
 	public void tableroDe2x2_todasLasCelulasMuertas_todasSiguenMuertas() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { F, F }, { F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F }, { F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -33,7 +44,7 @@ public class GameOfLifeTest {
 	public void tableroDe2x2_unaCelulaViva_todasEstanMuertas() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { T, F }, { F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F }, { F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -41,7 +52,7 @@ public class GameOfLifeTest {
 	public void tableroDe2x2_dosCelulasVivas_todasEstanMuertas() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { T, T }, { F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F }, { F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -49,7 +60,7 @@ public class GameOfLifeTest {
 	public void tableroDe2x2_tresCelulasVivas_todasEstanVivas() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { T, T }, { T, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { T, T }, { T, T } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -57,7 +68,7 @@ public class GameOfLifeTest {
 	public void tableroDe2x2_todasLasCelulasVivas_todasSiguenVivas() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { T, T }, { T, T } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { T, T }, { T, T } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -65,7 +76,7 @@ public class GameOfLifeTest {
 	public void tableroDe3x2_LasCelulasDeLaPrimerFilaVivas_dosQuedanVivas() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { T, T, T }, { F, F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, T, F }, { F, T, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -73,7 +84,7 @@ public class GameOfLifeTest {
 	public void tableroDe3x3_LasCelulasDeLaPrimerFilaVivas_dosQuedanVivas() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { T, T, T }, { F, F, F }, { F, F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, T, F }, { F, T, F }, { F, F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -81,7 +92,7 @@ public class GameOfLifeTest {
 	public void tableroDe4x4_stillLifes_block() throws Exception {
 		Boolean[][] matrixInicial = new Boolean[][] { { F, F, F, F }, { F, T, T, F }, { F, T, T, F }, { F, F, F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F }, { F, T, T, F }, { F, T, T, F }, { F, F, F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -91,7 +102,7 @@ public class GameOfLifeTest {
 				{ F, F, F, F, F }, { F, F, F, F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F }, { F, F, T, F, F }, { F, F, T, F, F },
 				{ F, F, T, F, F }, { F, F, F, F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -101,7 +112,7 @@ public class GameOfLifeTest {
 				{ F, F, T, F, F }, { F, F, F, F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F }, { F, F, F, F, F }, { F, T, T, T, F },
 				{ F, F, F, F, F }, { F, F, F, F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -111,7 +122,7 @@ public class GameOfLifeTest {
 				{ F, F, F, F, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F, F }, { F, T, T, F, F, F },
 				{ F, T, T, F, F, F }, { F, F, F, T, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -121,7 +132,7 @@ public class GameOfLifeTest {
 				{ F, F, F, T, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
 		Boolean[][] matrixEsperada = new Boolean[][] { { F, F, F, F, F, F }, { F, T, T, F, F, F },
 				{ F, T, F, F, F, F }, { F, F, F, F, T, F }, { F, F, F, T, T, F }, { F, F, F, F, F, F } };
-		Boolean[][] matrixFinal = game.start(matrixInicial);
+		Boolean[][] matrixFinal = game.nextGen(matrixInicial);
 		assertArrayEquals(matrixEsperada, matrixFinal);
 	}
 
@@ -129,7 +140,7 @@ public class GameOfLifeTest {
 	public void tableroDe6x6_oscillators_beacon_loadFromFile() throws Exception {
 		Boolean[][] matrix = loadFromFile("test/input");
 		Boolean[][] expected = loadFromFile("test/expected");
-		Boolean[][] matrixFinal = game.start(matrix);
+		Boolean[][] matrixFinal = game.nextGen(matrix);
 		assertArrayEquals(expected, matrixFinal);
 	}
 
@@ -141,7 +152,7 @@ public class GameOfLifeTest {
 		scanner.nextLine();
 		Boolean[][] matrix = new Boolean[rows][cols];
 		int i = 0;
-		while (scanner.hasNext()) {
+		while (scanner.hasNext() && i < rows) {
 			matrix[i++] = asBooleanArray(charForLivingCell, scanner.nextLine());
 		}
 		scanner.close();
@@ -158,11 +169,66 @@ public class GameOfLifeTest {
 		return ret;
 	}
 
-	private void printMatrix(Boolean[][] matrix) {
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[i].length; j++)
-				System.out.print(matrix[i][j] + " ");
-			System.out.println();
+	@Ignore
+	@Test
+	public void functionalTest() throws Exception {
+
+		class PanelImagen extends JPanel {
+
+			private static final long serialVersionUID = 3021002827327520771L;
+
+			private final ImageIcon imageIcon;
+
+			private final Image imagen;
+
+			public PanelImagen(final LayoutManager layout, final String image) {
+				super(layout);
+				imageIcon = new ImageIcon(image);
+				imagen = imageIcon.getImage();
+			}
+
+			@Override
+			public void paint(final Graphics g) {
+				super.paint(g);
+				g.drawImage(imagen, 0, 0, this.getWidth(), this.getHeight(), null);
+			}
+		}
+
+		class Ventana extends JFrame {
+
+			private static final long serialVersionUID = -3186299787704089181L;
+
+			private final JPanel jPanel;
+
+			public Ventana(final int filas, final int columnas, final String imagen) {
+				jPanel = new PanelImagen(new GridLayout(filas, columnas, 0, 0), imagen);
+				this.add(jPanel);
+				setSize(columnas * 15, filas * 15);
+			}
+
+			public void setMatriz(final Boolean[][] matriz) {
+				jPanel.removeAll();
+				for (int fila = 0; fila < matriz.length; fila++) {
+					for (int col = 0; col < matriz[fila].length; col++) {
+						JLabel jLabel = new JLabel();
+						jLabel.setOpaque(matriz[fila][col]);
+						jLabel.setBackground(matriz[fila][col] ? Color.YELLOW : Color.BLACK);
+						jPanel.add(jLabel);
+					}
+				}
+				this.revalidate();
+			}
+
+		}
+
+		Boolean[][] matrix = loadFromFile("test/chelis");
+		Ventana ventana = new Ventana(matrix.length, matrix[0].length, "test/earth.jpg");
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.setVisible(true);
+		ventana.setMatriz(matrix);
+		for (int i = 0; i < 1000; i++) {
+			Thread.sleep(100);
+			ventana.setMatriz(matrix = game.nextGen(matrix));
 		}
 	}
 

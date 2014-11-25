@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 
 public class GameOfLife {
 
-	public Boolean[][] start(final Boolean[][] input) {
+	public Boolean[][] nextGen(final Boolean[][] input) {
 		return IntStream.range(0, input.length)
 				.mapToObj(x -> process(x, input))
 				.toArray(Boolean[][]::new);
@@ -13,8 +13,8 @@ public class GameOfLife {
 
 	private Boolean[] process(final int x, final Boolean[][] input) {
 		return IntStream.range(0, input[x].length)
-				.mapToObj(y -> new Celula(livingNeighbors(x, y , input), input[x][y]))
-				.map(cel -> cel.newEstado())
+				.mapToObj(y -> new Cell(livingNeighbors(x, y , input), input[x][y]))
+				.map(cel -> cel.newStatus())
 				.toArray(Boolean[]::new);
 	}
 	
@@ -43,26 +43,26 @@ public class GameOfLife {
 		return (i == 0) ? 0 : i - 1;
 	}
 
-	private int getSupRow(int i, int length) {
+	private int getSupRow(final int i, final int length) {
 		return (i + 1 >= length) ? length - 1 : i + 1;
 	}
 
-	private class Celula {
-		private final int vecinos;
-		private final boolean estado;
+	private final class Cell {
+		private final int neighbors;
+		private final boolean status;
 
-		public Celula(final int vecinos, final boolean estado) {
-			this.vecinos = vecinos;
-			this.estado = estado;
+		public Cell(final int neighbors, final boolean status) {
+			this.neighbors = neighbors;
+			this.status = status;
 		}
 
-		public boolean newEstado() {
-			if (vecinos == 3)
+		public boolean newStatus() {
+			if (neighbors == 3)
 				return true;
-			if (vecinos > 3)
+			if (neighbors > 3)
 				return false;
-			if (vecinos >= 2)
-				return estado;
+			if (neighbors >= 2)
+				return status;
 			return false;
 		}
 		
