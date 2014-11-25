@@ -5,45 +5,40 @@ import java.util.stream.IntStream;
 
 public class GameOfLife {
 
-	public Boolean[][] start(final Boolean[][] matrixInicial) {
+	public Boolean[][] start(final Boolean[][] input) {
 		return IntStream
-				.range(0, matrixInicial.length)
-				.mapToObj(
-						x -> IntStream
-								.range(0, matrixInicial[x].length)
-								.mapToObj(
-										y -> getNewStatus(matrixInicial[x][y],
-												countSurroundingLivingNeighbors(x, y, matrixInicial)))
-								.toArray(Boolean[]::new)).toArray(Boolean[][]::new);
+				.range(0, input.length)
+				.mapToObj(x -> iterate(x, input))
+				.toArray(Boolean[][]::new);
 	}
 
-	public Boolean[][] sameSizeArray(final Boolean[][] input) {
-		return new Boolean[input.length][input[0].length];
+	private Boolean[] iterate(final int x, final Boolean[][] input) {
+		return IntStream
+				.range(0, input[x].length)
+				.mapToObj(y -> new Celula(surroundingLivingNeighbors(x, y , input), input[x][y]))
+				.map(cel -> cel.vecinos == 3 ? true : cel.vecinos > 3 ? false : cel.vecinos >= 2 ? cel.estado : false )
+				.toArray(Boolean[]::new);
 	}
-
-	private Boolean getNewStatus(final Boolean cel, final int aliveCells) {
-		if (aliveCells == 3)
-			return true;
-		if (aliveCells > 3)
-			return false;
-		if (aliveCells >= 2)
-			return cel;
-		return false;
-	}
-
-	public int countSurroundingLivingNeighbors(final int i, final int j, final Boolean[][] matrix) {
-		final int iInf = getInfRow(i);
-		final int jInf = getInfRow(j);
-		final int iSup = getSupRow(i, matrix.length);
-		final int jSup = getSupRow(j, matrix[0].length);
-		return (int) Arrays
-				.stream(IntStream
-						.rangeClosed(iInf, iSup)
-						.mapToObj(
-								x -> IntStream.rangeClosed(jInf, jSup)
-										.mapToObj(y -> matrix[x][y] && !((x == i) && (y == j))).toArray(Boolean[]::new))
-						.toArray(Boolean[][]::new)).flatMap(x -> Arrays.stream(x)).filter(x -> x.booleanValue())
+	
+	public int surroundingLivingNeighbors(final int i, final int j, final Boolean[][] matrix) {
+		return (int) Arrays.stream(subMatrix(i, j, matrix))
+				.flatMap(x -> Arrays.stream(x))
+				.filter(x -> x.booleanValue())
 				.count();
+	}
+
+	private Boolean[][] subMatrix(final int i, final int j, final Boolean[][] matrix) {
+		return IntStream
+				.rangeClosed(getInfRow(i), getSupRow(i, matrix.length))
+				.mapToObj(x -> subArray(x, i, j, matrix))
+				.toArray(Boolean[][]::new);
+	}
+
+	private Boolean[] subArray(int currentRow, final int i, final int j, final Boolean[][] matrix) {
+		return IntStream
+				.rangeClosed(getInfRow(j), getSupRow(j, matrix[currentRow].length))
+				.mapToObj(currentCol -> matrix[currentRow][currentCol] && !((currentRow == i) && (currentCol == j)))
+				.toArray(Boolean[]::new);
 	}
 
 	private int getInfRow(final int i) {
@@ -54,4 +49,26 @@ public class GameOfLife {
 		return (i + 1 >= length) ? length - 1 : i + 1;
 	}
 
+	private class Celula {
+		private final int vecinos;
+		private final boolean estado;
+
+		public Celula(final int vecinos, final boolean estado) {
+			super();
+			this.vecinos = vecinos;
+			this.estado = estado;
+		}
+	}
+	
+//	private Boolean updateCell(final int i, final int j, final Boolean[][] matrix) {
+//		int cellsAlive = surroundingLivingNeighbors(i, j, matrix);
+//		if (cellsAlive == 3)
+//			return true;
+//		if (cellsAlive > 3)
+//			return false;
+//		if (cellsAlive >= 2)
+//			return matrix[i][j];
+//		return false;
+//	}
+	
 }
