@@ -5,16 +5,16 @@ import java.util.stream.IntStream;
 
 public class GameOfLife {
 
-	public Boolean[][] nextGen(final Boolean[][] input) {
-		return IntStream.range(0, input.length)
-				.mapToObj(x -> process(x, input))
+	public Boolean[][] nextGen(final Boolean[][] matrix) {
+		return IntStream.range(0, matrix.length)
+				.mapToObj(i -> process(i, matrix))
 				.toArray(Boolean[][]::new);
 	}
 
-	private Boolean[] process(final int x, final Boolean[][] input) {
-		return IntStream.range(0, input[x].length)
-				.mapToObj(y -> new Cell(livingNeighbors(x, y , input), input[x][y]))
-				.map(cel -> cel.newStatus())
+	private Boolean[] process(final int i, final Boolean[][] matrix) {
+		return IntStream.range(0, matrix[i].length)
+				.mapToObj(j -> new Cell(livingNeighbors(i, j , matrix), matrix[i][j]))
+				.map(cell -> cell.newStatus())
 				.toArray(Boolean[]::new);
 	}
 	
@@ -27,13 +27,13 @@ public class GameOfLife {
 
 	private Boolean[][] subMatrix(final int i, final int j, final Boolean[][] matrix) {
 		return IntStream.rangeClosed(getInfRow(i), getSupRow(i, matrix.length))
-				.mapToObj(x -> subArray(x, i, j, matrix))
+				.mapToObj(row -> subArray(row, i, j, matrix))
 				.toArray(Boolean[][]::new);
 	}
 
-	private Boolean[] subArray(int currentRow, final int i, final int j, final Boolean[][] matrix) {
-		return IntStream.rangeClosed(getInfRow(j), getSupRow(j, matrix[currentRow].length))
-				.mapToObj(currentCol -> matrix[currentRow][currentCol] && !((currentRow == i) && (currentCol == j)))
+	private Boolean[] subArray(int row, final int i, final int j, final Boolean[][] matrix) {
+		return IntStream.rangeClosed(getInfRow(j), getSupRow(j, matrix[row].length))
+				.mapToObj(col -> matrix[row][col] && !((row == i) && (col == j)))
 				.toArray(Boolean[]::new);
 	}
 
