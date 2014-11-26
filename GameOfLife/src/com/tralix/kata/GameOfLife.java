@@ -26,15 +26,13 @@ public class GameOfLife {
 	}
 
 	private Boolean[][] subMatrix(final int i, final int j, final Boolean[][] matrix) {
-		return IntStream
-				.rangeClosed(getInfRow(i), getSupRow(i, matrix.length))
+		return IntStream.rangeClosed(getInfRow(i), getSupRow(i, matrix.length))
 				.mapToObj(x -> subArray(x, i, j, matrix))
 				.toArray(Boolean[][]::new);
 	}
 
 	private Boolean[] subArray(int currentRow, final int i, final int j, final Boolean[][] matrix) {
-		return IntStream
-				.rangeClosed(getInfRow(j), getSupRow(j, matrix[currentRow].length))
+		return IntStream.rangeClosed(getInfRow(j), getSupRow(j, matrix[currentRow].length))
 				.mapToObj(currentCol -> matrix[currentRow][currentCol] && !((currentRow == i) && (currentCol == j)))
 				.toArray(Boolean[]::new);
 	}
