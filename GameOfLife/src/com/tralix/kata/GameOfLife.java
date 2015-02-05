@@ -14,13 +14,13 @@ public class GameOfLife {
 	private Boolean[] process(final int i, final Boolean[][] matrix) {
 		return IntStream.range(0, matrix[i].length)
 				.mapToObj(j -> new Cell(livingNeighbors(i, j , matrix), matrix[i][j]))
-				.map(cell -> cell.newStatus())
+				.map(Cell::newStatus)
 				.toArray(Boolean[]::new);
 	}
 	
 	private int livingNeighbors(final int i, final int j, final Boolean[][] matrix) {
 		return (int) Arrays.stream(subMatrix(i, j, matrix))
-				.flatMap(x -> Arrays.stream(x))
+				.flatMap(Arrays::stream)
 				.filter(x -> x)
 				.count();
 	}

@@ -10,10 +10,7 @@ import java.awt.LayoutManager;
 import java.io.File;
 import java.util.Scanner;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -274,19 +271,19 @@ public class GameOfLifeTest {
 
             private final JPanel jPanel;
 
-            public Ventana(final int filas, final int columnas, final String imagen) {
-                jPanel = new PanelImagen(new GridLayout(filas, columnas, 0, 0), imagen);
+            public Ventana(final int filas, final int columnas) {
+                jPanel = new PanelImagen(new GridLayout(filas, columnas, 0, 0), "test/resources/earth.jpg");
                 this.add(jPanel);
                 setSize(columnas * 15, filas * 15);
             }
 
             public void setMatriz(final Boolean[][] matriz) {
                 jPanel.removeAll();
-                for (int fila = 0; fila < matriz.length; fila++) {
-                    for (int col = 0; col < matriz[fila].length; col++) {
+                for (final Boolean[] array : matriz) {
+                    for (final Boolean isAlive : array) {
                         JLabel jLabel = new JLabel();
-                        jLabel.setOpaque(matriz[fila][col]);
-                        jLabel.setBackground(matriz[fila][col] ? Color.YELLOW : Color.BLACK);
+                        jLabel.setOpaque(isAlive);
+                        jLabel.setBackground(isAlive ? Color.YELLOW : Color.BLACK);
                         jPanel.add(jLabel);
                     }
                 }
@@ -296,8 +293,8 @@ public class GameOfLifeTest {
         }
 
         Boolean[][] matrix = loadFromFile("test/resources/chelis");
-        Ventana ventana = new Ventana(matrix.length, matrix[0].length, "test/resources/earth.jpg");
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Ventana ventana = new Ventana(matrix.length, matrix[0].length);
+        ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setVisible(true);
         ventana.setMatriz(matrix);
         for (int i = 0; i < 1000; i++) {
