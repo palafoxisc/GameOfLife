@@ -1,4 +1,4 @@
-package com.tralix.kata;
+package com.nestor.kata;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -202,8 +202,8 @@ public class GameOfLifeTest {
 
     @Test
     public void tableroDe6x6_oscillators_beacon_loadFromFile() throws Exception {
-        Boolean[][] matrix = loadFromFile("test/resources/input");
-        Boolean[][] expected = loadFromFile("test/resources/expected");
+        Boolean[][] matrix = loadFromFile("src/test/resources/input");
+        Boolean[][] expected = loadFromFile("src/test/resources/expected");
         Boolean[][] matrixFinal = game.nextGen(matrix);
         assertArrayEquals(expected, matrixFinal);
     }
@@ -265,7 +265,7 @@ public class GameOfLifeTest {
             private final JPanel jPanel;
 
             public Ventana(final int filas, final int columnas) {
-                jPanel = new PanelImagen(new GridLayout(filas, columnas, 0, 0), "test/resources/earth.jpg");
+                jPanel = new PanelImagen(new GridLayout(filas, columnas, 0, 0), "src/test/resources/earth.jpg");
                 this.add(jPanel);
                 setSize(columnas * 15, filas * 15);
             }
@@ -285,7 +285,7 @@ public class GameOfLifeTest {
 
         }
 
-        Boolean[][] matrix = loadFromFile("test/resources/chelis");
+        Boolean[][] matrix = loadFromFile("src/test/resources/chelis");
         Ventana ventana = new Ventana(matrix.length, matrix[0].length);
         ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setVisible(true);

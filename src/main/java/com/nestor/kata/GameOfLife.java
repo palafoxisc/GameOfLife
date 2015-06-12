@@ -1,4 +1,4 @@
-package com.tralix.kata;
+package com.nestor.kata;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
