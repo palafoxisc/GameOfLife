@@ -1,28 +1,21 @@
 package com.tralix.kata;
 
-import static org.junit.Assert.assertArrayEquals;
-
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.LayoutManager;
-import java.io.File;
-import java.util.Scanner;
-
-import javax.swing.*;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.util.Scanner;
+
+import static org.junit.Assert.assertArrayEquals;
+
 public class GameOfLifeTest {
 
-    private GameOfLife game;
-
     private static final boolean T = true;
-
     private static final boolean F = false;
+    private GameOfLife game;
 
     @Before
     public void setUp() {
@@ -209,8 +202,8 @@ public class GameOfLifeTest {
 
     @Test
     public void tableroDe6x6_oscillators_beacon_loadFromFile() throws Exception {
-        Boolean[][] matrix = loadFromFile("GameOfLife/test/resources/input");
-        Boolean[][] expected = loadFromFile("GameOfLife/test/resources/expected");
+        Boolean[][] matrix = loadFromFile("test/resources/input");
+        Boolean[][] expected = loadFromFile("test/resources/expected");
         Boolean[][] matrixFinal = game.nextGen(matrix);
         assertArrayEquals(expected, matrixFinal);
     }
